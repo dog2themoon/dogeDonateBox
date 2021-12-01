@@ -1,4 +1,3 @@
-import * as Matter from 'matter-js';
 import Dogecoin from './Dogecoin.js';
 
 var Composite = Matter.Composite;

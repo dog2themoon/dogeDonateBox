@@ -1,4 +1,3 @@
-import * as Matter from 'matter-js';
 import dogecoinImg from './img/dogecoin.png';
 
 var Bodies = Matter.Bodies;

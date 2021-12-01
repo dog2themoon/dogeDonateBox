@@ -1,14 +1,12 @@
-import * as Matter from 'matter-js';
-import * as p5 from './p5.min.js';
+var $script = require("scriptjs");
 
 import DonateBox from './DonateBox.js';
 import DogecoinManage from './DogecoinManage.js';
 import DonateRecipient from './DonateRecipient.js';
 
 import getUrlParameter from './unit/GetUrlParameter.js';
-
-import $ from "jquery";
 import './css/justBox.css';
+
 
 window.jQuery = window.$ = $; // 使用JQUERY 的方法
 
@@ -30,6 +28,11 @@ let dogecoinManage = new DogecoinManage(world);
 let dogecoinAddress = getUrlParameter('dogecoinAddress') || 'DGqPDQpo1EywBQdvrEdtDotyrstcaoMx3L';
 let donateRecipient = new DonateRecipient(dogecoinManage, dogecoinAddress);
 
+const runP5 = function(fn) {
+    $script("https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js", function() {
+        fn();
+    });
+}
 
 
 const runDonate = function(coins, launchPoint_X, coinSize) {
@@ -145,7 +148,10 @@ const sketch = (p) => {
 
     };
 };
-new p5(sketch);
+
+runP5(()=>{
+    new p5(sketch);
+})
 
 const test = function(launchPoint_X, coinSize) {
     

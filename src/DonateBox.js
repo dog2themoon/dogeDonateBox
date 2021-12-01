@@ -1,7 +1,4 @@
 import CoinLine from './CoinLine.js';
-import * as Matter from 'matter-js';
-
-
 var World = Matter.World;
 
 export default class DonateBox {

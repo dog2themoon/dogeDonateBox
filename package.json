@@ -27,6 +27,7 @@
     "jquery-ui": "^1.13.0",
     "jsdom": "^18.0.0",
     "matter-js": "^0.17.1",
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "scriptjs": "^2.5.9"
   }
 }

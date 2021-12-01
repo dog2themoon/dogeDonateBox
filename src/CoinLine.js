@@ -1,4 +1,3 @@
-import * as Matter from 'matter-js';
 
 var Bodies = Matter.Bodies,
     Body = Matter.Body;
