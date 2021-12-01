@@ -34,13 +34,13 @@ if(dogecoinAddress == false) {
 
 let detectCoinApi = '';
 console.log(dogecoinAddress);
-if(dogecoinAddress && dogecoinAddress.charAt(1) == 'D') {
+
+if(dogecoinAddress && dogecoinAddress[0] == 'D') {
+    console.log("in at ");
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGE/';
 } else {
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGETEST/';
 }
-
-
 
 
 let donateRecipient = new DonateRecipient(dogecoinManage, dogecoinAddress, detectCoinApi);
@@ -139,18 +139,15 @@ const sketch = (p) => {
             test(setcoins_n, launchPoint_X, coinSize);
         }
 
-        let is_running = false;
         if(dogecoinAddress != false) {
             setInterval(()=> {
-                if(is_running == false) {
-                    donateRecipient.checkNewTXs(function(new_tx) {
-                    
-                        for(let i = 0 ; i < new_tx.length ; i++) {
-                            let coins = Math.floor(new_tx[i].value);
-                            runDonate(coins, launchPoint_X, coinSize);
-                        }
-                    });
-                }
+                donateRecipient.checkNewTXs(function(new_tx) {
+                
+                    for(let i = 0 ; i < new_tx.length ; i++) {
+                        let coins = Math.floor(new_tx[i].value);
+                        runDonate(coins, launchPoint_X, coinSize);
+                    }
+                });
     
             }, 1000);
         }
