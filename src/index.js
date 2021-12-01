@@ -134,7 +134,7 @@ const sketch = (p) => {
         donateBox = new DonateBox(boxSize);
         donateBox.toMatterWorld(world);
 
-        let setcoins_n = getUrlParameter('setcoins');
+        let setcoins_n = getUrlParameter('setcoin');
         if(setcoins_n && setcoins_n > 0) {
             test(setcoins_n, launchPoint_X, coinSize);
         }
