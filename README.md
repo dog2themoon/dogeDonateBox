@@ -15,6 +15,8 @@ https://dog2themoon.github.io/dogeDonateBox/dist/index.html?dogecoinAddress=D6Bo
 
 And if someone send coin to that address, The web will start running donating animation.
 
+This web url can add in OBS browser source, make your live stream more interesting.
+
 ## How to test
 If you want test some effect, here is the solution. 
 
