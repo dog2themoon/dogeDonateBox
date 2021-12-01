@@ -1,0 +1,12 @@
+#dogeDonateBox{
+    opacity:0
+}
+
+#dogeDonateBox > canvas {
+    border:5px #BA8C63 solid;
+    margin:0px auto;
+}
+
+#doge_img{
+    opacity:0
+}
