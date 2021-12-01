@@ -8,7 +8,6 @@ import getUrlParameter from './unit/GetUrlParameter.js';
 import './css/justBox.css';
 
 
-window.jQuery = window.$ = $; // 使用JQUERY 的方法
 
 var Engine = Matter.Engine,
     Runner = Matter.Runner;
@@ -40,7 +39,7 @@ const runDonate = function(coins, launchPoint_X, coinSize) {
     .then(()=>{return showDonateBox();})
     .then(()=>{return delay(2);})
     .then(()=>{return startFallCoin(coins, launchPoint_X, coinSize);})
-    .then(()=>{return delay(5);})
+    .then(()=>{return delay(8);})
     .then(()=>{return closeDonateBox();})
     .then(()=>{return closeDoge();});
 }
@@ -155,7 +154,7 @@ runP5(()=>{
 
 const test = function(launchPoint_X, coinSize) {
     
-    let coins = 10;
+    let coins = 5;
     runDonate(coins, launchPoint_X, coinSize);
     setInterval(()=> {
         runDonate(coins, launchPoint_X, coinSize);

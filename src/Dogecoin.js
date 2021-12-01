@@ -17,7 +17,7 @@ export default class Dogecoin {
 
     toMatter() {
         if(this.coin === undefined) {
-            this.coin = Bodies.circle(this.x, this.y, this.size, { frictionAir: 0, friction: 0.005, restitution: 0.7 });
+            this.coin = Bodies.circle(this.x, this.y, this.size, { frictionAir: 0, friction: 0.005, restitution: 0.9 });
         }
         return this.coin;
     }
