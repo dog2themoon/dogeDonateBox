@@ -7,7 +7,7 @@ The Dogecoin donate box is for streamer interact with audiences, The effect is a
 
 Write your dogecoin address after dogecoinAddress=  
 
-EX. (That is my dogecoin address)
+EX. (That is my dogecoin address, Welcome donate :) )
 
 ```
 https://dog2themoon.github.io/dogeDonateBox/dist/index.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n
