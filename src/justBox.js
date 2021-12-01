@@ -24,8 +24,25 @@ let donateBox;
 
 let dogecoinManage = new DogecoinManage(world);
 
-let dogecoinAddress = getUrlParameter('dogecoinAddress') || 'DGqPDQpo1EywBQdvrEdtDotyrstcaoMx3L';
-let donateRecipient = new DonateRecipient(dogecoinManage, dogecoinAddress);
+let dogecoinAddress = getUrlParameter('dogecoinAddress');
+if(dogecoinAddress == false) {
+    console.log('Not set dogecoinAddress in URL');
+    console.log('..../justBox.html?dogecoinAddress={your dogecoin address}');
+    console.log('ex. ..../justBox.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n');
+}
+
+let detectCoinApi = '';
+console.log(dogecoinAddress);
+if(dogecoinAddress.charAt(1) == 'D') {
+    detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGE/';
+} else {
+    detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGETEST/';
+}
+
+
+
+
+let donateRecipient = new DonateRecipient(dogecoinManage, dogecoinAddress, detectCoinApi);
 
 const runP5 = function(fn) {
     $script("https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js", function() {
@@ -113,26 +130,28 @@ const sketch = (p) => {
         donateBox.toMatterWorld(world);
 
         let test_s = getUrlParameter('test');
-        console.log(test_s);
         if(test_s == 'true') {
-            console.log('in test');
-
             test(launchPoint_X, coinSize);
         }
 
-        setInterval(()=> {
+        if(dogecoinAddress != false) {
+            setInterval(()=> {
 
-            donateRecipient.checkNewTXs(function(new_tx) {
+                donateRecipient.checkNewTXs(function(new_tx) {
+    
+                    for(let i = 0 ; i < new_tx.length ; i++) {
+    
+                        let coins = Math.floor(new_tx[i].value);
+                        runDonate(coins, launchPoint_X, coinSize);
 
-                for(let i = 0 ; i < new_tx.length ; i++) {
-
-                    let coins = Math.floor(new_tx[i].value);
-                    runDonate(coins, launchPoint_X, coinSize);
-
-                }
-            });
-
-        }, 1000);
+                        
+    
+                    }
+                });
+    
+            }, 1000);
+        }
+        
 
         
 
