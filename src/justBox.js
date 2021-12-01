@@ -7,7 +7,8 @@ import DonateRecipient from './DonateRecipient.js';
 import getUrlParameter from './unit/GetUrlParameter.js';
 import './css/justBox.css';
 
-
+var Queue = require('sync-queue');
+var runDoanteQueue = new Queue();
 
 var Engine = Matter.Engine,
     Runner = Matter.Runner;
@@ -33,7 +34,7 @@ if(dogecoinAddress == false) {
 
 let detectCoinApi = '';
 console.log(dogecoinAddress);
-if(dogecoinAddress.charAt(1) == 'D') {
+if(dogecoinAddress && dogecoinAddress.charAt(1) == 'D') {
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGE/';
 } else {
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGETEST/';
@@ -52,13 +53,17 @@ const runP5 = function(fn) {
 
 
 const runDonate = function(coins, launchPoint_X, coinSize) {
-    showDoge()
-    .then(()=>{return showDonateBox();})
-    .then(()=>{return delay(2);})
-    .then(()=>{return startFallCoin(coins, launchPoint_X, coinSize);})
-    .then(()=>{return delay(8);})
-    .then(()=>{return closeDonateBox();})
-    .then(()=>{return closeDoge();});
+    runDoanteQueue.place(()=>{
+        showDoge()
+        .then(()=>{return showDonateBox();})
+        .then(()=>{return delay(2);})
+        .then(()=>{return startFallCoin(coins, launchPoint_X, coinSize);})
+        .then(()=>{return delay(8);})
+        .then(()=>{return closeDonateBox();})
+        .then(()=>{return closeDoge();})
+        .then(()=>{runDoanteQueue.next();});
+
+    });
 }
 
 const showDonateBox = function() {
@@ -129,33 +134,26 @@ const sketch = (p) => {
         donateBox = new DonateBox(boxSize);
         donateBox.toMatterWorld(world);
 
-        let test_s = getUrlParameter('test');
-        if(test_s == 'true') {
-            test(launchPoint_X, coinSize);
+        let setcoins_n = getUrlParameter('setcoins');
+        if(setcoins_n && setcoins_n > 0) {
+            test(setcoins_n, launchPoint_X, coinSize);
         }
 
+        let is_running = false;
         if(dogecoinAddress != false) {
             setInterval(()=> {
-
-                donateRecipient.checkNewTXs(function(new_tx) {
-    
-                    for(let i = 0 ; i < new_tx.length ; i++) {
-    
-                        let coins = Math.floor(new_tx[i].value);
-                        runDonate(coins, launchPoint_X, coinSize);
-
-                        
-    
-                    }
-                });
+                if(is_running == false) {
+                    donateRecipient.checkNewTXs(function(new_tx) {
+                    
+                        for(let i = 0 ; i < new_tx.length ; i++) {
+                            let coins = Math.floor(new_tx[i].value);
+                            runDonate(coins, launchPoint_X, coinSize);
+                        }
+                    });
+                }
     
             }, 1000);
         }
-        
-
-        
-
-        
     };
 
     p.draw = function () {
@@ -171,11 +169,9 @@ runP5(()=>{
     new p5(sketch);
 })
 
-const test = function(launchPoint_X, coinSize) {
+const test = function(coins, launchPoint_X, coinSize) {
     
-    let coins = 5;
     runDonate(coins, launchPoint_X, coinSize);
-    setInterval(()=> {
-        runDonate(coins, launchPoint_X, coinSize);
-    }, 20000);
+    runDonate(coins, launchPoint_X, coinSize);
+    runDonate(coins, launchPoint_X, coinSize);
 }
