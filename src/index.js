@@ -21,9 +21,10 @@ let runner = Runner.create();
 Runner.run(runner, engine);
 
 let donateBox;
+let boxSize = Math.floor(window.innerHeight);
 
-
-let dogecoinManage = new DogecoinManage(world);
+let toDeleteDropHeight = Math.floor(boxSize * 1.5);
+let dogecoinManage = new DogecoinManage(world, toDeleteDropHeight);
 
 let dogecoinAddress = getUrlParameter('dogecoinAddress');
 if(dogecoinAddress == false) {
@@ -123,7 +124,6 @@ const sketch = (p) => {
     p.setup = function () {
         
 
-        let boxSize = Math.floor(window.innerHeight);
         let coinSize = Math.floor(boxSize / 15);
         let launchPoint_X = 10;
 

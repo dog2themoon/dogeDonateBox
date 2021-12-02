@@ -5,11 +5,11 @@ var Composite = Matter.Composite;
 
 export default class DogecoinManage {
     
-    constructor(matterWorld) {
+    constructor(matterWorld, toDeleteDropHeight) {
         this.dogecoins = [];
         this.matterWorld = matterWorld;
         this.autoCleanTime = 2000;
-        this.toDeleteDropHeight = 10000;
+        this.toDeleteDropHeight = toDeleteDropHeight;
 
         this.autoClean();
     }
