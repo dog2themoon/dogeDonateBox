@@ -44,6 +44,9 @@ dogecoinAddress={TestNet Dogecoin Address}
 ## About me
 That is my website https://dogecoin.idv.tw/ , just do only good for doge
 
+If you want to support this project, Welcome donate to my Doge address 
+
+`D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n`
 
 
 
