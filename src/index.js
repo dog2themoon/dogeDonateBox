@@ -29,15 +29,14 @@ let dogecoinManage = new DogecoinManage(world, toDeleteDropHeight);
 let dogecoinAddress = getUrlParameter('dogecoinAddress');
 if(dogecoinAddress == false) {
     console.log('Not set dogecoinAddress in URL');
-    console.log('..../justBox.html?dogecoinAddress={your dogecoin address}');
-    console.log('ex. ..../justBox.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n');
+    console.log('..../index.html?dogecoinAddress={your dogecoin address}');
+    console.log('ex. ..../index.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n');
 }
 
 let detectCoinApi = '';
 console.log(dogecoinAddress);
 
 if(dogecoinAddress && dogecoinAddress[0] == 'D') {
-    console.log("in at ");
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGE/';
 } else {
     detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGETEST/';
@@ -65,6 +64,19 @@ const runDonate = function(coins, launchPoint_X, coinSize) {
         .then(()=>{runDoanteQueue.next();});
 
     });
+}
+
+const runDonateRepeat = async function(coins, launchPoint_X, coinSize) {
+
+    while(true) {
+        await showDoge()
+        .then(()=>{return showDonateBox();})
+        .then(()=>{return delay(2);})
+        .then(()=>{return startFallCoin(coins, launchPoint_X, coinSize);})
+        .then(()=>{return delay(8);})
+        .then(()=>{return closeDonateBox();})
+        .then(()=>{return closeDoge();})
+    }
 }
 
 const showDonateBox = function() {
@@ -119,13 +131,10 @@ const closeDoge = function() {
 
 
 const sketch = (p) => {
-
+    let coinSize = Math.floor(boxSize / 15);
+    let launchPoint_X = 10;
 
     p.setup = function () {
-        
-
-        let coinSize = Math.floor(boxSize / 15);
-        let launchPoint_X = 10;
 
         p.createCanvas(boxSize, boxSize).parent("dogeDonateBox");
         $( "#doge_img" ).width(boxSize);
@@ -133,11 +142,6 @@ const sketch = (p) => {
 
         donateBox = new DonateBox(boxSize);
         donateBox.toMatterWorld(world);
-
-        let setcoins_n = getUrlParameter('setcoin');
-        if(setcoins_n && setcoins_n > 0) {
-            test(setcoins_n, launchPoint_X, coinSize);
-        }
 
         if(dogecoinAddress != false) {
             setInterval(()=> {
@@ -149,7 +153,7 @@ const sketch = (p) => {
                     }
                 });
     
-            }, 1000);
+            }, 5000);
         }
     };
 
@@ -160,6 +164,11 @@ const sketch = (p) => {
         donateRecipient.printOnP5(p);
 
     };
+
+    let setcoins_n = getUrlParameter('setcoin');
+    if(setcoins_n && setcoins_n > 0) {
+        test(setcoins_n, launchPoint_X, coinSize);
+    }
 };
 
 runP5(()=>{
@@ -167,8 +176,5 @@ runP5(()=>{
 })
 
 const test = function(coins, launchPoint_X, coinSize) {
-    
-    runDonate(coins, launchPoint_X, coinSize);
-    runDonate(coins, launchPoint_X, coinSize);
-    runDonate(coins, launchPoint_X, coinSize);
+    runDonateRepeat(coins, launchPoint_X, coinSize);
 }
