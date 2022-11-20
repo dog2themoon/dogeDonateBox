@@ -1,6 +1,6 @@
 # Dogecoin donate box widget
 
-[中文(Chinese)](https://dogecoin.idv.tw/#/tools/DonateBox)
+This can use in Twitch donate, Let's Dogecoin use in anywhere !!!!
 
 ## About
 The Dogecoin donate box is for streamer interact with audiences, The effect is as follows.
