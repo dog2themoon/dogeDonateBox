@@ -14,7 +14,7 @@ Write your dogecoin address after dogecoinAddress=
 EX. (That is my dogecoin address, Welcome donate :) )
 
 ```
-https://dog2themoon.github.io/dogeDonateBox/dist/index.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n
+https://dog2themoon.github.io/dogeDonateBox/dist/index.html?dogecoinAddress=DTkyU9F14C4WW2dy7WBGUEqoMi4teBb1XE
 ```
 
 And if someone send coin to that address, The web will start running donating animation.
@@ -34,14 +34,14 @@ https://dog2themoon.github.io/dogeDonateBox/dist/index.html?setcoin=5
 Go to  [Dogecoin transactions](https://blockchair.com/dogecoin/transactions), choose any transaction, copy that address for test.
 ```
 https://dog2themoon.github.io/dogeDonateBox/dist/index.html?
-dogecoinAddress=..anyone Dogecoin Address
+dogecoinAddress={anyone_Dogecoin_Address}
 ```
 
 
 * Test send coin on the Dogecoin test net. 
 ```
 https://dog2themoon.github.io/dogeDonateBox/dist/index.html?
-dogecoinAddress=..TestNet Dogecoin Address
+dogecoinAddress={TestNet Dogecoin Address}
 ```
 
 ## About me
