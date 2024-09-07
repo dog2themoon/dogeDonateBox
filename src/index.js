@@ -143,17 +143,19 @@ const sketch = (p) => {
         donateBox = new DonateBox(boxSize);
         donateBox.toMatterWorld(world);
 
-        if(dogecoinAddress != false) {
+        if (dogecoinAddress != false) {
             setInterval(()=> {
-                donateRecipient.checkNewTXs(function(new_tx) {
-                
-                    for(let i = 0 ; i < new_tx.length ; i++) {
-                        let coins = Math.floor(new_tx[i].value);
-                        runDonate(coins, launchPoint_X, coinSize);
-                    }
-                });
-    
+                donateRecipient.updateCoinReceiveFromBlock();
             }, 5000);
+        }
+
+        if (dogecoinAddress != false) {
+            setInterval(()=> {
+                donateRecipient.runCoinAnimation((vin) => {
+                    let coins = Math.floor(vin);
+                    runDonate(coins, launchPoint_X, coinSize);
+                });
+            }, 30000);
         }
     };
 
