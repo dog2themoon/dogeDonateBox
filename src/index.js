@@ -7,6 +7,9 @@ import DonateRecipient from './DonateRecipient.js';
 import getUrlParameter from './unit/GetUrlParameter.js';
 import './css/justBox.css';
 
+console.log("version: 240908");
+
+
 var Queue = require('sync-queue');
 var runDoanteQueue = new Queue();
 
@@ -27,7 +30,7 @@ let toDeleteDropHeight = Math.floor(boxSize * 1.5);
 let dogecoinManage = new DogecoinManage(world, toDeleteDropHeight);
 
 let dogecoinAddress = getUrlParameter('dogecoinAddress');
-if(dogecoinAddress == false) {
+if (dogecoinAddress == false) {
     console.log('Not set dogecoinAddress in URL');
     console.log('..../index.html?dogecoinAddress={your dogecoin address}');
     console.log('ex. ..../index.html?dogecoinAddress=D6BoLmatJzBUBoikmww1LBYNZFzbbrrh2n');
@@ -115,6 +118,27 @@ const showDoge = function() {
     });
 }
 
+const showNotSetAddress = function() {
+    return new Promise((resolve, reject) => {
+        $( "#not_set_address_text" ).css('opacity', '1');
+    });
+}
+
+const showAlreadySetAddress = function() {
+    return new Promise((resolve, reject) => {
+        $( "#already_set_address_text" ).animate({
+            opacity: 1,
+        }, 500, resolve);
+
+        setTimeout(() => {
+            $( "#already_set_address_text" ).animate({
+                opacity: 0,
+            }, 1000, resolve);
+        }, 10000);
+    });
+}
+
+
 const closeDoge = function() {
     return new Promise((resolve, reject) => {
         $( "#doge_img" ).animate({
@@ -179,6 +203,10 @@ const sketch = (p) => {
     let setcoins_n = getUrlParameter('setcoin');
     if(setcoins_n && setcoins_n > 0) {
         test(setcoins_n, launchPoint_X, coinSize);
+    } else if (dogecoinAddress === false) {
+        showNotSetAddress();
+    } else if (dogecoinAddress !== false) {
+        showAlreadySetAddress();
     }
 };
 

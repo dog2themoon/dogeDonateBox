@@ -28,13 +28,6 @@ If you want test some effect, here is the solution.
 https://dog2themoon.github.io/dogeDonateBox/dist/index.html?setcoin=5
 ```
 
-* Test send.
-Go to  [Dogecoin transactions](https://blockchair.com/dogecoin/transactions), choose any transaction, copy that address for test.
-```
-https://dog2themoon.github.io/dogeDonateBox/dist/index.html?
-dogecoinAddress={anyone_Dogecoin_Address}
-```
-
 ## About me
 If you want to support this project, Welcome donate to my Doge address
 
