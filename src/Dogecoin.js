@@ -13,7 +13,6 @@ export default class Dogecoin {
         this.coin;
         // this.dogeImg;
     }
-    
 
     toMatter() {
         if(this.coin === undefined) {
@@ -40,15 +39,9 @@ export default class Dogecoin {
         p.imageMode(p.CENTER);
 
         // p.ellipse(0, 0, this.size, this.size);
-        
         let img_size = Math.floor(this.size * 2);
-    
         p.image(Dogecoin.#dogeImg, 0, 0, img_size, img_size);
 
         p.pop();
     }
-
-    
-
-
 }
