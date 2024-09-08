@@ -20,6 +20,11 @@ export default class DonateRecipient {
 
     addCoinsV2(n, launchPoint_X, size, complete) {
 
+        if (n < 1) {
+            complete();
+            return;
+        }
+
         for(let i = 0; i < n ; i++) {
 
             setTimeout(() => {
@@ -51,22 +56,20 @@ export default class DonateRecipient {
         if (notRunCoinAnimationReceive !== undefined) {
             runFn(notRunCoinAnimationReceive.vin);
             notRunCoinAnimationReceive.isRunCoinAnimation = true;
+        } else {
+            console.log("not new Receive");
         }
 
-        console.log("in runCoinAnimation");
-        console.log(this.addressReceiveByBlockHeight);
+        // for debug
+        // console.log("in runCoinAnimation");
+        // console.log(this.addressReceiveByBlockHeight);
     }
 
     updateCoinReceiveFromBlock() {
-        let req_url = 'http://localhost:3001/GetLatestBlockAddress';
+        const getLatestBlockAddressApiPath = this.detectCoinApi + "/GetLatestBlockAddress";
 
-        let new_tx = [];
-
-        axios.get(req_url)
+        axios.get(getLatestBlockAddressApiPath)
         .then( (response) => {
-            console.log("franky-test");
-            console.log(response);
-
             const blockInfoList = response.data;
 
             blockInfoList.forEach(blockInfo => {
@@ -97,8 +100,9 @@ export default class DonateRecipient {
                 }
             });
 
-            console.log("this.addressReceiveByBlockHeight");
-            console.log(this.addressReceiveByBlockHeight);
+            // for debug
+            // console.log("this.addressReceiveByBlockHeight");
+            // console.log(this.addressReceiveByBlockHeight);
         })
         .catch(function (error) {
             console.log(error);

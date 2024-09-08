@@ -36,10 +36,8 @@ if(dogecoinAddress == false) {
 let detectCoinApi = '';
 console.log(dogecoinAddress);
 
-if(dogecoinAddress && dogecoinAddress[0] == 'D') {
-    detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGE/';
-} else {
-    detectCoinApi = 'https://chain.so/api/v2/get_tx_received/DOGETEST/';
+if (dogecoinAddress && dogecoinAddress[0] == 'D') {
+    detectCoinApi = 'https://coininfo.frankyya.com';
 }
 
 
@@ -144,18 +142,29 @@ const sketch = (p) => {
         donateBox.toMatterWorld(world);
 
         if (dogecoinAddress != false) {
-            setInterval(()=> {
+            function updateDate() {
                 donateRecipient.updateCoinReceiveFromBlock();
-            }, 5000);
+            }
+
+            updateDate();
+            setInterval(updateDate, 5000);
         }
 
         if (dogecoinAddress != false) {
-            setInterval(()=> {
+
+            function startRunCoinAnimation() {
                 donateRecipient.runCoinAnimation((vin) => {
+                    if (vin < 1) {
+                        vin = 1;
+                    }
+
                     let coins = Math.floor(vin);
                     runDonate(coins, launchPoint_X, coinSize);
                 });
-            }, 30000);
+            }
+
+            setTimeout(startRunCoinAnimation, 5000);
+            setInterval(startRunCoinAnimation, 30000);
         }
     };
 
