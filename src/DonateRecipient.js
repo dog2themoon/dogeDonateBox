@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default class DonateRecipient {
-    
+
     constructor(dogecoinManage, address, detectCoinApi) { // address:String
 
         this.detectCoinApi = detectCoinApi
@@ -12,10 +12,18 @@ export default class DonateRecipient {
         this.monitorCycleTime = 10; // 10s
         this.checkDonateTime = 600; // 600s
         this.lastTxidHasShowed;
+
+        // 結構: height, vin
+        this.addressReceiveByBlockHeight = [];
     }
 
 
     addCoinsV2(n, launchPoint_X, size, complete) {
+
+        if (n < 1) {
+            complete();
+            return;
+        }
 
         for(let i = 0; i < n ; i++) {
 
@@ -35,74 +43,69 @@ export default class DonateRecipient {
         this.dogecoinManage.printOnP5(p);
     }
 
-    checkNewTXs(haveNewTX_fn) {
-        let req_url = '';
-        let base_req_url = this.detectCoinApi;
-
-        let new_tx = [];
-
-        if(this.lastTxidHasShowed === undefined) {
-            req_url = base_req_url + this.address;
-        } else {
-            req_url = base_req_url + this.address + '/' + this.lastTxidHasShowed;
+    runCoinAnimation(runFn) {
+        if (this.addressReceiveByBlockHeight.length === 0) {
+            return;
         }
 
-        axios.get(req_url)
+
+        let notRunCoinAnimationReceive = this.addressReceiveByBlockHeight.find((val) => {
+            return val.isRunCoinAnimation === false
+        })
+
+        if (notRunCoinAnimationReceive !== undefined) {
+            runFn(notRunCoinAnimationReceive.vin);
+            notRunCoinAnimationReceive.isRunCoinAnimation = true;
+        } else {
+            console.log("not new Receive");
+        }
+
+        // for debug
+        // console.log("in runCoinAnimation");
+        // console.log(this.addressReceiveByBlockHeight);
+    }
+
+    updateCoinReceiveFromBlock() {
+        const getLatestBlockAddressApiPath = this.detectCoinApi + "/GetLatestBlockAddress";
+
+        axios.get(getLatestBlockAddressApiPath)
         .then( (response) => {
+            const blockInfoList = response.data;
 
-            let txs = response.data.data.txs;
-            
-            for(let i = 0 ; i < txs.length ; i++) {
+            blockInfoList.forEach(blockInfo => {
 
-                let coinsTimestamp = txs[i].time;
-                let coinsTxid = txs[i].txid;
+                let totalVin = 0;
+                blockInfo.blockTxAboutAddressInfo.eachAddressVinList.forEach((eachAddressVin) => {
 
-                let currentTimestamp  = Math.floor(Date.now() / 1000);
+                    if (eachAddressVin.address !== this.address) {
+                        return;
+                    }
+                    totalVin += eachAddressVin.vin;
 
-                let isDonateCoinInTime = (currentTimestamp - coinsTimestamp) < this.checkDonateTime;
+                })
 
-                if ( isDonateCoinInTime  && this.findTxid(coinsTxid) === false) {
-                    this.hasShowed.push(txs[i]);
-                    new_tx.push(txs[i]);
+                if (totalVin > 0) {
 
+                    const isExist = this.addressReceiveByBlockHeight.find((val) => {
+                        return val.height === blockInfo.height
+                    });
+
+                    if (isExist === undefined) {
+                        this.addressReceiveByBlockHeight.push({
+                            height: blockInfo.height,
+                            vin: totalVin,
+                            isRunCoinAnimation: false
+                        })
+                    }
                 }
-                if(i == (txs.length - 1)) {
-                    this.lastTxidHasShowed = coinsTxid;
-                }
-            }
-            
-        }) 
+            });
+
+            // for debug
+            // console.log("this.addressReceiveByBlockHeight");
+            // console.log(this.addressReceiveByBlockHeight);
+        })
         .catch(function (error) {
             console.log(error);
-        })
-        .then(function () {
-            haveNewTX_fn(new_tx);
         });
     }
-
-
-    findTxid(txid) {
-        for(let j = 0 ; j < this.hasShowed.length ; j++) {
-            if(this.hasShowed[j].txid === txid) {
-                return true;
-            }
-        }
-        this.cleanHasShowed();
-        return false;
-    }
-
-    cleanHasShowed() {
-        let currentTimestamp  = Math.floor(Date.now() / 1000);
-        for(let i = 0 ; i < this.hasShowed.length ; i++) {
-            if(currentTimestamp - this.hasShowed[i].time > this.checkDonateTime) {
-                
-                let index = this.hasShowed.indexOf(this.hasShowed[i]);
-                this.hasShowed.splice(index, 1);
-
-            }
-        }
-    }
-
-
-
 }

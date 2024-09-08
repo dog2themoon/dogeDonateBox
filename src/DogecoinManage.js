@@ -4,7 +4,6 @@ var Composite = Matter.Composite;
 
 
 export default class DogecoinManage {
-    
     constructor(matterWorld, toDeleteDropHeight) {
         this.dogecoins = [];
         this.matterWorld = matterWorld;
@@ -36,9 +35,9 @@ export default class DogecoinManage {
 
                 let coin = this.dogecoins[i].toMatter();
                 if(coin.position.y > this.toDeleteDropHeight) {
-    
+
                     Composite.remove(this.matterWorld, coin);
-    
+
                     let index = this.dogecoins.indexOf(this.dogecoins[i]);
                     this.dogecoins.splice(index, 1); // delete coin
                 }

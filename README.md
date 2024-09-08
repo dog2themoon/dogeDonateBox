@@ -9,9 +9,7 @@ The Dogecoin donate box is for streamer interact with audiences, The effect is a
 ![image](./doc/img/doge_donate_box.gif)
 ## How to use
 
-Write your dogecoin address after dogecoinAddress=  
-
-EX. (That is my dogecoin address, Welcome donate :) )
+Write your dogecoin address after dogecoinAddress=
 
 ```
 https://dog2themoon.github.io/dogeDonateBox/dist/index.html?dogecoinAddress=DTkyU9F14C4WW2dy7WBGUEqoMi4teBb1XE
@@ -22,7 +20,7 @@ And if someone send coin to that address, The web will start running donating an
 This web url can add in OBS browser source, make your live stream more interesting.
 
 ## How to test
-If you want test some effect, here is the solution. 
+If you want test some effect, here is the solution.
 
 * Test coin fall effect, you can set how much coins you want by setcoin.
 
@@ -37,15 +35,8 @@ https://dog2themoon.github.io/dogeDonateBox/dist/index.html?
 dogecoinAddress={anyone_Dogecoin_Address}
 ```
 
-
-* Test send coin on the Dogecoin test net. 
-```
-https://dog2themoon.github.io/dogeDonateBox/dist/index.html?
-dogecoinAddress={TestNet Dogecoin Address}
-```
-
 ## About me
-If you want to support this project, Welcome donate to my Doge address 
+If you want to support this project, Welcome donate to my Doge address
 
 `DTkyU9F14C4WW2dy7WBGUEqoMi4teBb1XE`
 
